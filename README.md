@@ -34,7 +34,7 @@ python inference.py      # 샘플 질문에 대한 응답 출력
 ## Dataset
 
 | 파일 | 컬럼 | 설명 |
-|------|---------|------|------|
+|------|------|------|
 | `data/train.csv`  | `instruction`, `input`, `output` | 보험 관련 질문·문맥·모범답변 |
 
 * **instruction** – 사용자의 핵심 질문 (예: “실손보험과 종합보험의 차이는?”)  
