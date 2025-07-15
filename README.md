@@ -63,7 +63,7 @@ python inference.py      # 샘플 질문에 대한 응답 출력
 prompt = f"""아래에는 작업을 설명하는 지시문과 입력이 주어집니다.
 ### 지시문: {instruction}
 ### 입력: {input}
-### 응답: {output}<|endoftext|>"""
+### 응답: {output}"""
 ```
 
 ### 루트 스크립트
