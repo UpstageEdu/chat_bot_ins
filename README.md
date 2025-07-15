@@ -15,32 +15,70 @@
 python setup.py
 ```
 
-## 🏋️‍♂️ Training
+## Training
 ```bash
 # data/train.csv (columns: instruction,input,output) 준비 후
 python train.py
 ```
 결과 LoRA 어댑터 → `checkpoints/gpt2-lora/`
 
-## 🗜 Quantization (선택)
+## Quantization (선택)
 ```bash
 python quantization.py   # LoRA → 4-bit 모델 저장
 ```
 
-## 🔮 Inference
+## Inference
 ```bash
 python inference.py      # 샘플 질문에 대한 응답 출력
 ```
+## Dataset
 
-## 📁 Project Structure
+| 파일 | 샘플 수 | 컬럼 | 설명 |
+|------|---------|------|------|
+| `data/train.csv` | ≈ 1,800 | `instruction`, `input`, `output` | 보험 관련 질문·문맥·모범답변 |
+
+* **instruction** – 사용자의 핵심 질문 (예: “실손보험과 종합보험의 차이는?”)  
+* **input** – 선택적 추가 문맥 (대부분 공란)  
+* **output** – 약관/법령을 반영한 정답형 답변  
+
+> **통계 요약**  
+> • 평균 답변 길이: ~120 토큰  
+> • 입력이 비어있는 비율: ~86 %  
+> • 총 토큰 수(세 개 컬럼 합계): ≈ 300 K
+
+---
+
+## Code Walk‑through
+
+### `utils/`
+
+| 파일 | 역할 |
+|------|------|
+| **`data.py`** | • CSV 로드 → Alpaca 프롬프트화 → `datasets.Dataset` <br>• 95 / 5 train‑eval 분할 (고정 seed = 42) |
+| **`prompts.py`** | Alpaca 템플릿 문자열 두 가지(입력 유무) |
+| **`metric.py`** | BLEU + Perplexity 계산 함수 (HuggingFace `evaluate`) |
+
+```python
+# 예시: 프롬프트 생성 (축약)
+prompt = f"""아래에는 작업을 설명하는 지시문과 입력이 주어집니다.
+### 지시문: {instruction}
+### 입력: {input}
+### 응답: {output}<|endoftext|>"""
 ```
-chat_bot_ins/
-├─ data/                # train.csv (↖︎사용자 준비)
-├─ utils/
-│  ├─ data.py, prompts.py, metric.py
-├─ train.py             # LoRA 학습
-├─ quantization.py      # 4-bit 양자화
-├─ inference.py         # 추론 예시
-├─ setup.py             # ← 원클릭 환경 구축
-└─ README.md            # (YOU ARE HERE)
-```
+
+### 루트 스크립트
+
+| 파일 | 주요 포인트 |
+|------|------------|
+| **`train.py`** | *Base* = `gpt2`; LoRA on `c_attn`, r = 16, α = 32 <br>20 epochs, batch 2 × grad acc 16, FP16 지원 |
+| **`quantization.py`** | LoRA 병합 → `BitsAndBytesConfig(nf4)` 4‑bit 양자화 → 저장 |
+| **`inference.py`** | 템플릿 채운 뒤 `model.generate()` (temp 0.7, top‑p 0.9, max 150) |
+
+---
+
+## License & Acknowledgement
+
+* 코드: MIT (unless stated otherwise)  
+* 데이터: 공개 보험 약관을 재가공한 2차 저작물 – **비영리 연구·교육 목적** 사용을 권장합니다.  
+
+---
