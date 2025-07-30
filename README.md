@@ -9,7 +9,7 @@
 * **4‑bit 양자화** – `BitsAndBytesConfig` 지원, VRAM 절감  
 
 
-## Quick Start
+## Dependency 설치
 ```bash
 # 의존성 & 하드웨어 세팅
 python setup.py
@@ -25,6 +25,19 @@ python train.py
 ## Quantization (선택)
 ```bash
 python quantization.py   # LoRA → 4-bit 모델 저장
+```
+
+경로 오류 발생 시, 아래 경로를 확인 후 `quantization.py` 파일에서 경로를 수정해주세요!
+```
+%ls model-checkpoints/gpt2-lora/
+```
+
+```
+def main():
+    # 경로 설정
+    base_model_name = "gpt2"
+    adapter_path = "checkpoints/gpt2-lora/checkpoint-100" # 이 부분에서 경로 설정!
+    ...
 ```
 
 ## Inference
