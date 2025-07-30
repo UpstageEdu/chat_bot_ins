@@ -39,7 +39,7 @@ chat_bot_ins/
 ```bash
 # 1. 저장소 클론 & 의존성 설치
 $ git clone <repository-url>
-$ cd tox_ko_classification
+$ cd chat_bot_ins
 $ python setup.py
 
 # 2. 기본 설정으로 학습 (GPU 권장)
