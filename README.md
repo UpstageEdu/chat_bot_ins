@@ -11,6 +11,14 @@
 
 ## Quick Start
 ```bash
+# 깃허브 레포 다운
+git clone https://github.com/DopeorNope-Lee/chat_bot_ins.git
+cd chat_bot_ins
+
+# 콘다 가상환경 생성 및 활성화
+conda create -n chatbot_ins python=3.11.8 -y
+conda create chatbot_ins
+
 # 의존성 & 하드웨어 세팅
 python setup.py
 ```
