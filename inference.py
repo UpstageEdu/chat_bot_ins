@@ -59,8 +59,8 @@ def main():
     
     # 4. 결과 출력
     print("\n" + "="*50)
-    print(f"📜 질문: {sample_instruction}")
-    print(f"🤖 생성된 답변: {generated_answer}")
+    print(f"질문: {sample_instruction}")
+    print(f"생성된 답변: {generated_answer}")
     print("="*50)
 
 
