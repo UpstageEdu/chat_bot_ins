@@ -12,6 +12,7 @@ def load_and_prepare_data(model_name="gpt2", data_path="data/train.csv", test_si
     """
     # 1. 토크나이저 로드
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+    # GPT-2 계열엔 pad 토큰이 없으므로 eos 토큰을 재사용 
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
