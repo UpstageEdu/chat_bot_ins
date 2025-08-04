@@ -19,6 +19,7 @@ cd chat_bot_ins
 conda create -n chatbot_ins python=3.11.8 -y
 conda create chatbot_ins
 
+pip install -r requirements.txt
 # 의존성 & 하드웨어 세팅
 python setup.py
 ```
