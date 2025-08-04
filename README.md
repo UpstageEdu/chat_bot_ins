@@ -39,6 +39,16 @@ chat_bot_ins/
 먼저 Git 저장소를 클론하고, `setup.py` 스크립트로 기본 환경을 설정합니다.
 
 ```bash
+# 깃허브 레포 다운
+git clone https://github.com/DopeorNope-Lee/chat_bot_ins.git
+cd chat_bot_ins
+
+# 콘다 가상환경 생성 및 활성화
+conda create -n chatbot_ins python=3.11.8 -y
+conda create chatbot_ins
+
+# 의존성 & 하드웨어 세팅
+=======
 git clone <repository-url>
 cd chat_bot_ins
 python setup.py
