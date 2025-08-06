@@ -49,7 +49,7 @@ cd chat_bot_ins
 
 # 콘다 가상환경 생성 및 활성화
 conda create -n chatbot_ins python=3.11.8 -y
-conda create chatbot_ins
+conda activate chatbot_ins
 
 # 의존성 세팅
 pip install -r requirements.txt
