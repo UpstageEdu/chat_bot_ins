@@ -52,10 +52,10 @@ def main():
         fp16=torch.cuda.is_available(), # FP16 학습 활성화 (GPU 사용 시)
         save_strategy="steps",
         save_steps=100,
-        eval_strategy="steps",
+        eval_strategy="no",
         eval_steps=10,
         dataset_text_field="text",
-        max_seq_length=1024,
+        max_seq_length=256,
     )
 
     # 5. SFTTrainer를 사용한 학습
