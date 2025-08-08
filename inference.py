@@ -43,7 +43,7 @@ def run_inference(model, tokenizer, instruction):
 
 def main():
    # 1. 최종 모델이 저장된 경로를 지정합니다.
-   model_path = "checkpoints/gpt2-insurance-4bit"
+   model_path = "checkpoints/gpt2-lora/checkpoint-100" # 추론에 사용할 모델의 경로를 정확하게 입력해야 합니다.
    print(f"'{model_path}'에서 병합 및 양자화된 모델을 로드합니다...")
   
    # 2. 모델을 양자화할 때 사용했던 것과 동일한 BitsAndBytesConfig를 정의합니다.
