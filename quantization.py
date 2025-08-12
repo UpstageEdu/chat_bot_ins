@@ -16,7 +16,7 @@ def main():
     print(f"기본 모델 '{base_model_name}'을 로드합니다.")
     base_model = AutoModelForCausalLM.from_pretrained(
         base_model_name,
-        torch_dtype=torch.bfloat16,  # 메모리 효율을 위해 float16으로 로드
+        torch_dtype=torch.float16,  # 메모리 효율을 위해 float16으로 로드
         device_map="auto",
     )
     tokenizer = AutoTokenizer.from_pretrained(base_model_name)
@@ -34,7 +34,7 @@ def main():
         load_in_4bit=True,
         bnb_4bit_use_double_quant=True,
         bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.bfloat16,
+        bnb_4bit_compute_dtype=torch.float16,
     )
 
     # 4. 병합된 모델을 4-bit로 양자화하여 다시 로드
