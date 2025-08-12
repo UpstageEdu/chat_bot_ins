@@ -109,7 +109,7 @@ python inference.py
 `quantization.py` 실행 시 경로 관련 에러가 발생하면, 먼저 아래 명령어로 실제 체크포인트가 저장된 경로를 확인하세요.
 
 ```bash
-ls model-checkpoints/gpt2-lora/
+dir model-checkpoints/SmolLM2-360M-Instruct-lora/
 ```
 
 그리고 `quantization.py` 파일의 `main` 함수 내에서 `adapter_path` 변수의 경로를 실제 체크포인트 경로로 직접 수정해주세요.
