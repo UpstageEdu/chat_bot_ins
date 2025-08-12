@@ -1,6 +1,6 @@
 # 보험 상담 챗봇 교육용 프로젝트
 
-이 프로젝트는 한국어 보험 Q&A 데이터를 기반으로 GPT-2 모델을 파인튜닝하는 교육용 코드입니다. LoRA(Low-Rank Adaptation)와 4-bit 양자화 기법을 통해, 경량 GPU 환경에서도 실시간 상담 챗봇을 구현하는 전 과정을 경험할 수 있도록 구성되어 있습니다.
+이 프로젝트는 보험 도메인 질의응답 데이터셋를 기반으로 SmolLM2-360M-Instruct 모델을 파인튜닝하는 교육용 코드입니다. LoRA(Low-Rank Adaptation)와 4-bit 양자화 기법을 통해, 경량 GPU 환경에서도 실시간 상담 챗봇을 구현하는 전 과정을 경험할 수 있도록 구성되어 있습니다.
 
 ## 프로젝트 목표
 
@@ -11,9 +11,9 @@
 
 ## 사전 요구사항
 
--   **Python**: 3.11.8 이상
+-   **Python**: 3.11.8 고정
 -   **GPU**: CUDA 지원 GPU (최소 4GB VRAM 권장)
--   **운영체제**: Windows 10/11, macOS 10.15+, Ubuntu 18.04+
+-   **운영체제**: Windows 11
 
 ## 프로젝트 구조
 
@@ -66,7 +66,7 @@ python setup.py
 python train.py
 ```
 
-학습이 완료되면, `checkpoints/gpt2-lora/` 경로에 LoRA 어댑터가 저장됩니다.
+학습이 완료되면, `checkpoints/SmolLM2-360M-Instruct-lora` 경로에 LoRA 어댑터가 저장됩니다.
 
 ### 3. 모델 최적화 (선택사항)
 
@@ -91,7 +91,6 @@ python inference.py
 | 파일         | 역할                                                                        |
 | :----------- | :-------------------------------------------------------------------------- |
 | **`data.py`** | CSV 파일을 로드하여 Alpaca 형식의 프롬프트로 변환하고 `datasets.Dataset` 객체를 생성합니다. Train/Eval 데이터셋을 95:5 비율로 분할합니다(seed=42). |
-| **`prompts.py`** | 입력(input) 유무에 따라 두 가지 종류의 Alpaca 프롬프트 템플릿 문자열을 제공합니다. |
 | **`metric.py`** | HuggingFace `evaluate` 라이브러리를 사용하여 BLEU 점수와 Perplexity를 계산하는 함수를 포함합니다. |
 
 **프롬프트 생성 예시 (축약):**
@@ -117,7 +116,7 @@ prompt = f"""아래에는 작업을 설명하는 지시문과 입력이 주어�
 | :--------------- | :----------------------------- | :------------------------------------- |
 | `data/train.csv` | `instruction`, `input`, `output` | 보험 관련 질문, 추가 문맥, 모범 답변으로 구성 |
 
--   **instruction**: 사용자의 핵심 질문 (예: “실손보험과 종합보험의 차이는?”)
+-   **instruction**: 사용자의 핵심 질문 (예: “Loss insurance and comprehensive insurance difference?”)
 -   **input**: 부가적인 문맥 정보 (대부분의 경우 비어 있음)
 -   **output**: 보험 약관이나 법령을 기반으로 한 정답 형식의 답변
 
@@ -136,8 +135,8 @@ ls model-checkpoints/gpt2-lora/
 ```python
 def main():
     # 경로 설정
-    base_model_name = "gpt2"
-    adapter_path = "checkpoints/gpt2-lora/checkpoint-100" # 이 부분을 실제 경로로 수정!
+    base_model_name = "HuggingFaceTB/SmolLM2-360M-Instruct"
+    adapter_path = "checkpoints/SmolLM2-360M-Instruct-lora/checkpoint-100" # 이 부분을 실제 경로로 수정!
     ...
 ```
 
