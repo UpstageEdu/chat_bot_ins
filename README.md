@@ -110,16 +110,6 @@ prompt = f"""아래에는 작업을 설명하는 지시문과 입력이 주어�
 | **`quantization.py`** | 훈련된 LoRA 어댑터를 기본 모델과 병합한 뒤, `BitsAndBytesConfig`를 이용해 NF4 방식으로 4-bit 양자화를 수행하고 저장합니다. |
 | **`inference.py`** | 프롬프트 템플릿에 질문을 채운 뒤, `model.generate()`를 호출하여 답변을 생성합니다. (temp=0.7, top-p=0.9, max_length=150) |
 
-## 데이터셋
-
-| 파일             | 컬럼                           | 설명                                   |
-| :--------------- | :----------------------------- | :------------------------------------- |
-| `data/train.csv` | `instruction`, `input`, `output` | 보험 관련 질문, 추가 문맥, 모범 답변으로 구성 |
-
--   **instruction**: 사용자의 핵심 질문 (예: “Loss insurance and comprehensive insurance difference?”)
--   **input**: 부가적인 문맥 정보 (대부분의 경우 비어 있음)
--   **output**: 보험 약관이나 법령을 기반으로 한 정답 형식의 답변
-
 ## 문제 해결
 
 ### 양자화 시 경로 오류
