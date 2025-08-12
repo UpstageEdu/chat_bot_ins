@@ -3,9 +3,9 @@
 
 ### 파일 구성
 파일명	샘플 수	설명
-train.jsonl	21,325	모델 학습용 데이터
-valid.jsonl	3,354	학습 중 검증용 데이터
-test.jsonl	3,308	최종 평가용 데이터
+- train.jsonl	21,325	모델 학습용 데이터
+- valid.jsonl	3,354	학습 중 검증용 데이터
+- test.jsonl	3,308	최종 평가용 데이터
 
 ### 데이터 포맷
 각 파일은 JSON Lines(.jsonl) 형식입니다. 한 줄에 하나의 JSON 객체가 기록되어 있으며, 주요 필드는 다음과 같습니다.
