@@ -1,5 +1,4 @@
-# utils/data.py
-
+import os
 from transformers import AutoTokenizer
 from datasets import load_dataset
 import torch
@@ -9,18 +8,23 @@ RESPONSE_START_TEMPLATE = "'<|im_start|>assistant\n'"
 RESPONSE_START_TEMPLATE_IDS = [1, 520, 9531, 198]
 
 
-def load_and_prepare_data(model_name="gpt2", data_path="deccan-ai/insuranceQA-v2"):
+def load_and_prepare_data(model_name="HuggingFaceTB/SmolLM2-360M-Instruct", data_dir="./data/"):
     """
-    로컬 CSV 파일을 로드하고, 학습/평가용으로 분리한 뒤,
-    Alpaca 프롬프트 형식으로 변환합니다.
+    로컬 JSONL 파일을 로드하고, 학습/검증/평가용으로 분리한 뒤,
+    채팅 형식으로 변환합니다.
     """
     # 1. 토크나이저 로드
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # 2. 허깅페이스 데이터셋에서 데이터셋 불러오기
-    dataset = load_dataset(data_path)
+    # 2. 로컬 JSONL 파일에서 데이터셋 불러오기
+    data_files = {
+        "train": os.path.join(data_dir, "train.jsonl"),
+        "validation": os.path.join(data_dir, "valid.jsonl"),
+        "test": os.path.join(data_dir, "test.jsonl"),
+    }
+    dataset = load_dataset("json", data_files=data_files)
 
     def to_chat(example, tokenizer):
         prompt_messages = [
@@ -58,6 +62,9 @@ def load_and_prepare_data(model_name="gpt2", data_path="deccan-ai/insuranceQA-v2
 
 
 def preprocess(prompt_messages, label_messages, tokenizer):
+    """
+    This function remains UNCHANGED.
+    """
     label_message = label_messages[0]["content"]
     label_input_ids = tokenizer.encode(
         label_message, add_special_tokens=False, return_tensors="pt"
