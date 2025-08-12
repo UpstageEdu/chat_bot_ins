@@ -1,7 +1,5 @@
 # InsuranceQA v2 (JSONL Local Version)
-**보험 도메인 질의응답 데이터셋(InsuranceQA v2)**을 로컬 환경에서 바로 사용할 수 있도록 train.jsonl, valid.jsonl, test.jsonl 형태로 제공합니다. 각 샘플은 **질문(input)**과 **전문가 답변(output)**으로 구성되어 있습니다.
-
-원 데이터셋은 보험 관련 실질적인 Q&A를 포함하며, 고객 질문과 전문가의 상세한 답변이 쌍을 이루고 있습니다.
+보험 도메인 질의응답 데이터셋(InsuranceQA v2)을 로컬 환경에서 바로 사용할 수 있도록 train.jsonl, valid.jsonl, test.jsonl 형태로 제공합니다. 각 샘플은 질문(input)과 전문가 답변(output)으로 구성되어 있습니다. 원 데이터셋은 보험 관련 실질적인 Q&A를 포함하며, 고객 질문과 전문가의 상세한 답변이 쌍을 이루고 있습니다.
 
 ### 파일 구성
 파일명	샘플 수	설명
