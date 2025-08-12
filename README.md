@@ -90,17 +90,9 @@ python inference.py
 
 | 파일         | 역할                                                                        |
 | :----------- | :-------------------------------------------------------------------------- |
-| **`data.py`** | CSV 파일을 로드하여 Alpaca 형식의 프롬프트로 변환하고 `datasets.Dataset` 객체를 생성합니다. Train/Eval 데이터셋을 95:5 비율로 분할합니다(seed=42). |
+| **`data.py`** | 	로컬 JSONL(train/valid/test) 파일을 로드하여 SmolLM2 채팅 템플릿 형식으로 변환하고, 토크나이즈·라벨 마스킹까지 완료된 datasets.Dataset 객체를 생성합니다. Train/Validation/Eval 데이터셋을 파일 단위로 불러옵니다(랜덤 분할 없음). |
 | **`metric.py`** | HuggingFace `evaluate` 라이브러리를 사용하여 BLEU 점수와 Perplexity를 계산하는 함수를 포함합니다. |
 
-**프롬프트 생성 예시 (축약):**
-
-```python
-prompt = f"""아래에는 작업을 설명하는 지시문과 입력이 주어집니다.
-### 지시문: {instruction}
-### 입력: {input}
-### 응답: {output}"""
-```
 
 ### 2. 스크립트별 핵심 로직
 
