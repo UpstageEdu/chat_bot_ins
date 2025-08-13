@@ -12,7 +12,7 @@ def run_inference(model, tokenizer, instruction):
     """
     주어진 instruction과 input으로 추론을 실행합니다.
     """
-
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     # 2. 토크나이징
     inputs = tokenizer.apply_chat_template(
         [
@@ -24,7 +24,7 @@ def run_inference(model, tokenizer, instruction):
         add_generation_prompt=True,
         return_dict=True,
         return_tensors="pt",
-    ).to("mps")
+    ).to(device)
 
     # 3. 모델 추론
     print("추론 중...")
@@ -50,6 +50,8 @@ def run_inference(model, tokenizer, instruction):
 def main():
     # 1. 학습 모델 및 토크나이저 로드
     model_path = "checkpoints/SmolLM2-360M-Instruct-lora"
+    # model_path = "checkpoints/SmolLM2-360M-Instruct-4bit" # 양자화 모델 경로
+    
     print(f"'{model_path}'에서 모델을 로드합니다...")
     model_name = "HuggingFaceTB/SmolLM2-360M-Instruct"
 
