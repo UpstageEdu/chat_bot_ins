@@ -1,8 +1,8 @@
 # inference.py
 import os
-
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+# Add BitsAndBytesConfig and update imports
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from peft import PeftModel
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -13,7 +13,6 @@ def run_inference(model, tokenizer, instruction):
     주어진 instruction과 input으로 추론을 실행합니다.
     """
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    # 2. 토크나이징
     inputs = tokenizer.apply_chat_template(
         [
             {
@@ -26,7 +25,6 @@ def run_inference(model, tokenizer, instruction):
         return_tensors="pt",
     ).to(device)
 
-    # 3. 모델 추론
     print("추론 중...")
     with torch.no_grad():
         outputs = model.generate(
@@ -39,7 +37,6 @@ def run_inference(model, tokenizer, instruction):
             top_p=0.9,
         )
 
-    # 4. 결과 디코딩 및 출력
     response = tokenizer.decode(
         outputs[0][len(inputs["input_ids"][0]) :], skip_special_tokens=True
     )
@@ -48,18 +45,40 @@ def run_inference(model, tokenizer, instruction):
 
 
 def main():
-    # 1. 학습 모델 및 토크나이저 로드
     model_path = "checkpoints/SmolLM2-360M-Instruct-lora"
-    # model_path = "checkpoints/SmolLM2-360M-Instruct-4bit" # 양자화 모델 경로
+    # model_path = "checkpoints/SmolLM2-360M-Instruct-4bit"
     
     print(f"'{model_path}'에서 모델을 로드합니다...")
-    model_name = "HuggingFaceTB/SmolLM2-360M-Instruct"
 
-    model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    is_lora_adapter = os.path.exists(os.path.join(model_path, "adapter_config.json"))
+
+    if is_lora_adapter:
+        # --- LoRA Loading Logic ---
+        model_name = "HuggingFaceTB/SmolLM2-360M-Instruct"
+        model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        
+        model = PeftModel.from_pretrained(model, model_path)
+
+    else:
+        # --- Merged & Quantized Loading Logic ---
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16
+        )
+        
+        model = AutoModelForCausalLM.from_pretrained(
+            model_path,
+            quantization_config=bnb_config,
+            device_map="auto"
+        )
+        tokenizer = AutoTokenizer.from_pretrained(model_path)
+
+    # Universal pad token setting
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
-    # model = PeftModel.from_pretrained(model, model_path)
 
     print("모델 로드 완료!")
 
