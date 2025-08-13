@@ -45,8 +45,9 @@ def run_inference(model, tokenizer, instruction):
 
 
 def main():
-    model_path = "checkpoints/SmolLM2-360M-Instruct-lora"
-    # model_path = "checkpoints/SmolLM2-360M-Instruct-4bit"
+    # --- 이 경로를 LoRA 체크포인트 또는 4-bit 모델로 변경할 수 있습니다 ---
+    model_path = "checkpoints/SmolLM2-360M-Instruct-lora"  # 옵션 1: LoRA
+    # model_path = "checkpoints/SmolLM2-360M-Instruct-4bit"  # 옵션 2: 병합 및 양자화된 모델
     
     print(f"'{model_path}'에서 모델을 로드합니다...")
 
