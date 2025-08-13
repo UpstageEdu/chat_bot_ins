@@ -28,8 +28,10 @@ chat_bot_ins/
 │   ├── data.py           # 데이터셋 로딩 및 전처리
 │   ├── metric.py         # 모델 성능 평가 지표
 │   └── prompts.py        # 챗봇 프롬프트 형식 관리
-└── data/                   # 학습용 데이터
-    └── train.csv         # 실제 학습에 사용될 CSV 데이터 파일
+└── data/                 # 학습용 데이터
+    └── train.jsonl       # 실제 학습에 사용될 데이터 파일 (train)
+    └── test.jsonl        # 실제 학습에 사용될 데이터 파일 (test)
+    └── valid.jsonl       # 실제 학습에 사용될 데이터 파일 (valid)
 ```
 
 ## 시작하기
