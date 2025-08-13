@@ -19,7 +19,10 @@ def main():
     # 1. 데이터 로드 및 전처리
     print("데이터 로딩 및 전처리를 시작합니다...")
     train_dataset, val_dataset, eval_dataset, tokenizer = load_and_prepare_data(
-        model_name
+        model_name,
+        train_size=1000, # training data의 크기를 조절해주세요.
+        val_size=100, # validation data의 크기를 조절해주세요.
+        test_size=100 # test data의 크기를 조절해주세요.
     )
     print("데이터 준비 완료!")
 
